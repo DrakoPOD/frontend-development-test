@@ -30,7 +30,7 @@
         "./src/utils/*.ts"
       ],
       "@/components/*": [
-        "./src/components/*.vue"
+        "./src/components/*"
       ],
       "@/store/*": [
         "./src/store/*"
