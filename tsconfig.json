@@ -23,13 +23,17 @@
     "noFallthroughCasesInSwitch": true,
     "paths": {
       "@/types/*": [
-        "./types/*.d.ts"
-      ],
-      "@/enums/*": [
-        "./types/*.enums.ts"
+        "./src/types/*.d.ts",
+        "./src/types/*.enums.ts"
       ],
       "@/utils/*": [
         "./src/utils/*.ts"
+      ],
+      "@/components/*": [
+        "./src/components/*.vue"
+      ],
+      "@/store/*": [
+        "./src/store/*"
       ]
     }
   },
@@ -42,5 +46,5 @@
     {
       "path": "./tsconfig.node.json"
     }
-  ]
+  ],
 }
