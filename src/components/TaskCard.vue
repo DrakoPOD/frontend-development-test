@@ -11,6 +11,7 @@
     <div class="card-body">
       <div class="form-check fw-bold">
         <input
+          :disabled="!selectMode"
           class="form-check-input"
           :class="selectMode ? 'select-show' : 'select-hide'"
           type="checkbox"
@@ -23,7 +24,7 @@
       </div>
 
       <p class="card-text mb-1">
-        {{ task.descriprion }}
+        {{ task.description }}
       </p>
 
       <span
@@ -34,7 +35,7 @@
       >
       <div class="d-flex">
         <p class="card-text fw-lighter p-0 m-0 flex-grow-1">
-          <i class="bi bi-clock mr-2"></i>{{ " " + task.due }}
+          <i class="bi bi-clock mr-2"></i>{{ " " + (task.due || "---") }}
         </p>
         <p class="card-text m-0">{{ task.asingned }}</p>
       </div>
@@ -57,7 +58,7 @@
 <script setup lang="ts">
 import type { ITask } from "@/types/task";
 import { ref, computed } from "vue";
-import { useTaskStore } from "@/store/store";
+import { useDragStore } from "@/store/dragStore";
 
 import DropArea from "./DropArea.vue";
 
@@ -71,16 +72,16 @@ withDefaults(defineProps<Props>(), {
   selectMode: false,
 });
 
-const taskStore = useTaskStore();
+const dragStore = useDragStore();
 
 const mouseover = ref(false);
 const selected = ref(false);
 
 const isDragging = computed({
   set: (val: boolean) => {
-    taskStore.isDragging = val;
+    dragStore.isDragging = val;
   },
-  get: () => taskStore.isDragging,
+  get: () => dragStore.isDragging,
 });
 
 async function editTask() {
