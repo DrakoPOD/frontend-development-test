@@ -34,8 +34,9 @@
         >{{ tag }}</span
       >
       <div class="d-flex">
-        <p class="card-text fw-lighter p-0 m-0 flex-grow-1">
-          <i class="bi bi-clock mr-2"></i>{{ " " + (task.due || "---") }}
+        <p class="card-text fw-lighter p-0 m-0 flex-grow-1 text-nowrap">
+          <i class="bi bi-clock mr-2"></i
+          >{{ " " + (task.due ? moment(task.due).format("MMM DD YY") : "---") }}
         </p>
         <p class="card-text m-0">{{ task.assigned }}</p>
       </div>
@@ -61,6 +62,7 @@ import { ref, computed } from "vue";
 import { useDragStore } from "@/store/dragStore";
 
 import DropArea from "./DropArea.vue";
+import moment from "moment";
 
 interface Props {
   task: ITask;
