@@ -1,8 +1,19 @@
 <template>
   <div class="container container-fluid p-3">
     <div class="row g-2">
-      <div class="col-12 d-flex flex-row">
+      <div class="col-12 d-flex flex-row gap-2 align-center">
         <h1 class="flex-grow-1">Task Board</h1>
+        <div class="input-group aling-center align-self-center">
+          <input
+            type="text"
+            class="form-control"
+            aria-describedby="searchInput"
+            v-model="searchTask"
+          />
+          <span class="input-group-text border-0">
+            <i class="bi bi-search"></i>
+          </span>
+        </div>
         <button class="btn btn-primary" @click="openModal = true">
           Add Task
         </button>
@@ -49,6 +60,8 @@ const isLoading = ref(true);
 const taskStore = useTaskStore();
 const taskList = ref<ITask[]>([]);
 
+const searchTask = ref("");
+
 const columsNames = Object.keys(TaskStatusNames).map((key) => ({
   key: Number(key),
   name: TaskStatusNames[Number(key) as ITaskStutus],
@@ -61,7 +74,22 @@ async function getTaskList() {
   isLoading.value = false;
 }
 
-const taskFiltered = computed(() => taskList.value);
+/**
+ * TODO: combine method "taskFiltered" and "taskByStatus"
+ */
+const taskFiltered = computed(() => {
+  const searchText = searchTask.value.toLocaleLowerCase();
+  if (searchText === "" || searchText == null) return taskList.value;
+
+  const filtered = taskList.value.filter(
+    (task) =>
+      task.title.toLocaleLowerCase().includes(searchText) ||
+      // task.description.toLocaleLowerCase().includes(searchText) ||
+      task.assigned.toLocaleLowerCase().includes(searchText) ||
+      task.tags.some((tag) => tag.toLocaleLowerCase().includes(searchText))
+  );
+  return filtered;
+});
 
 const taskByStatus = computed(() => {
   const cols: Record<number, ITask[]> = {};
@@ -76,4 +104,9 @@ onMounted(async () => {
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.input-group {
+  width: 250px !important;
+  align-items: center;
+}
+</style>
