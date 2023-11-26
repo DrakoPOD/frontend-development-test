@@ -1,6 +1,6 @@
 <template>
   <div
-    class="input-tag form-control d-flex gap-1"
+    class="input-tag form-control d-flex flex-row gap-1 flex-wrap aling-center p-0"
     :class="{ 'input-tag-focus': isFocus }"
   >
     <span
@@ -15,6 +15,7 @@
       ></i>
     </span>
     <input
+      class="flex-grow-1 p-1"
       @keydown="enterTag"
       type="text"
       @focus="isFocus = true"
@@ -66,9 +67,10 @@ function enterTag(e: KeyboardEvent) {
 
 <style scoped>
 input {
-  width: 100%;
   border: none;
   outline: none;
+  min-width: 10px;
+  flex-basis: 50px;
 }
 
 .input-tag-focus {
@@ -85,5 +87,7 @@ input {
 
 .badge {
   padding: 5px;
+  margin: 2px;
+  height: 24.25px;
 }
 </style>
