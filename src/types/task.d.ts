@@ -5,7 +5,7 @@ export type ITaskStutus = typeof TaskStatus[keyof typeof TaskStatus];
 export interface ITask {
     title: string;
     description: string;
-    asingned: string;
+    assigned: string;
     tags: string[];
     due: Date | string | null;
     status: ITaskStutus;

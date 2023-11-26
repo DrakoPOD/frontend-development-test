@@ -37,7 +37,7 @@
         <p class="card-text fw-lighter p-0 m-0 flex-grow-1">
           <i class="bi bi-clock mr-2"></i>{{ " " + (task.due || "---") }}
         </p>
-        <p class="card-text m-0">{{ task.asingned }}</p>
+        <p class="card-text m-0">{{ task.assigned }}</p>
       </div>
     </div>
     <div

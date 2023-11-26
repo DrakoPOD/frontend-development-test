@@ -12,7 +12,7 @@
       <label for="inputTags" class="form-label">Tags:</label>
       <TagInput v-model="task.tags" />
     </div>
-    <CustomInput v-model="task.asingned" label="Assigne to:" />
+    <CustomInput v-model="task.assigned" label="Assigne to:" />
     <div class="mb-4">
       <label for="inputStatus" class="form-label">Status</label>
       <select
@@ -77,7 +77,7 @@ const task = ref<ITask>({
   title: "",
   description: "",
   tags: [],
-  asingned: "",
+  assigned: "",
   status: 0,
   due: "",
 });
