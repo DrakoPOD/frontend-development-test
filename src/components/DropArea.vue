@@ -20,16 +20,16 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { useTaskStore } from "@/store/store";
+import { useDragStore } from "@/store/dragStore";
 
-const taskStore = useTaskStore();
+const dragStore = useDragStore();
 
 const dragOver = ref(false);
 const isDragging = ref(false);
 
-taskStore.$subscribe(
+dragStore.$subscribe(
   () => {
-    setTimeout(() => (isDragging.value = taskStore.isDragging), 1);
+    setTimeout(() => (isDragging.value = dragStore.isDragging), 1);
   },
   { detached: true }
 );
@@ -68,6 +68,7 @@ taskStore.$subscribe(
 }
 
 .drag-over {
+  pointer-events: all;
 }
 
 .drag-none {
