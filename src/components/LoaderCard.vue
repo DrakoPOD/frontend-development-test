@@ -3,7 +3,7 @@
     <div class="card-body">
       <div class="form-check mb-3 d-flex flex-row">
         <div style="width: 15px"></div>
-        <SkeletonLoader class="flex-grow-1" />
+        <SkeletonLoader height="20px" class="flex-grow-1" />
       </div>
       <SkeletonLoader height="20px" class="mb-2" />
 
