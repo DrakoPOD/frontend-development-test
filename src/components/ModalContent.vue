@@ -1,6 +1,6 @@
 <template>
   <div class="custom-modal">
-    <div class="overlay" @click="emits('overlay-click')"></div>
+    <div class="overlay" @click="emits('overlayClick')"></div>
     <div class="modal-container">
       <slot />
     </div>
@@ -8,10 +8,12 @@
 </template>
 
 <script setup lang="ts">
-interface Props {}
+interface Props {
+  persistent?: boolean;
+}
 
 interface Emits {
-  (e: "overlay-click"): void;
+  (e: "overlayClick"): void;
 }
 const props = withDefaults(defineProps<Props>(), {
   persistent: false,

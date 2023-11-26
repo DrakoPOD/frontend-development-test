@@ -3,12 +3,10 @@
 </template>
 
 <script setup lang="ts">
-import { stringify } from "querystring";
-
 interface Props {
-  height: string;
-  width: string;
-  borderRadius: string;
+  height?: string;
+  width?: string;
+  borderRadius?: string;
 }
 
 withDefaults(defineProps<Props>(), {
@@ -22,9 +20,11 @@ withDefaults(defineProps<Props>(), {
   0% {
     background-position: 0 0;
   }
+
   50% {
     background-position: -100% 0;
   }
+
   100% {
     background-position: -200% 0;
   }
@@ -37,13 +37,11 @@ withDefaults(defineProps<Props>(), {
   border-radius: v-bind(borderRadius);
 
   background: rgb(209, 209, 209);
-  background: linear-gradient(
-    90deg,
-    rgba(209, 209, 209, 1) 0%,
-    rgba(170, 170, 170, 1) 29%,
-    rgba(170, 170, 170, 1) 71%,
-    rgba(209, 209, 209, 1) 100%
-  );
+  background: linear-gradient(90deg,
+      rgba(209, 209, 209, 1) 0%,
+      rgba(170, 170, 170, 1) 29%,
+      rgba(170, 170, 170, 1) 71%,
+      rgba(209, 209, 209, 1) 100%);
 
   background-size: 200% 100%;
 

@@ -24,12 +24,13 @@
 
 <script setup lang="ts">
 import { ref, computed, getCurrentInstance } from "vue";
+import type { IValidationRuleFunction } from "@/types/funcTypes";
 
 interface Props {
   modelValue?: string | number;
   label?: string;
   textHelp?: string;
-  rules?: { (v: string | number): true | string }[];
+  rules?: IValidationRuleFunction<any>[];
   required?: boolean;
 }
 

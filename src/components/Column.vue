@@ -9,7 +9,7 @@
               v-for="(task, idx) in taskList"
               :task="task"
               :idx="idx"
-              :key="task"
+              :key="idx"
             />
           </template>
           <template v-else>

@@ -4,7 +4,7 @@
     <CustomInput
       v-model="task.title"
       label="Title:"
-      :rules="validationRules.title"
+      :rules="validationRules.title!"
       required
     />
     <CustomInput v-model="task.description" label="Description:" />
@@ -48,9 +48,11 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { TaskStatusNames } from "@/types/task.enums";
-import { ITask, type ITaskStutus } from "@/types/task";
+import type { ITask, ITaskStutus } from "@/types/task";
 import TagInput from "@/components/TagInput.vue";
 import CustomInput from "@/components/CustomInput.vue";
+
+import type { IValidateObjectOfRules } from "@/types/funcTypes";
 
 interface Props {
   mode: "add" | "edit";
@@ -82,9 +84,7 @@ const task = ref<ITask>({
   due: "",
 });
 
-const validationRules: {
-  [key in keyof ITask]?: Array<(v: string) => boolean | string>;
-} = {
+const validationRules: IValidateObjectOfRules = {
   title: [
     (v: string) =>
       (!!v && v.length > 3) || "Task title is must be more than 3 characters",

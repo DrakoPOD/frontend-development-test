@@ -63,6 +63,6 @@ export const useTaskStore = defineStore('tasks', {
         }
     },
     actions: {
-        sort(oldIndex: number, newIndex: number){}
+        // sort(oldIndex: number, newIndex: number){}
     }
 })

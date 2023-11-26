@@ -8,6 +8,6 @@ export const sampleTask: ITask = {
     description: 'This is a sample task for dev',
     status: TaskStatus.IN_PROGRESS,
     tags: ['Ama', 'Casa', 'Pedro'],
-    asingned: 'Willy Malboa',
+    assigned: 'Willy Malboa',
     due: moment().format('MMM Do YY')
 }

@@ -31,7 +31,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emits = defineEmits<Emits>();
 
-async function overlayClick() {
+function overlayClick() {
   if (props.persistent) return;
   emits("update:modelValue", false);
 }
