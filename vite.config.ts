@@ -9,6 +9,6 @@ export default defineConfig({
     alias:
       { "@": process.cwd() + '/src' }
 
-  }
-
+  },
+  base: `${process.env.BASE_PATH || ''}/`
 })
