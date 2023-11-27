@@ -100,7 +100,6 @@ function addTask() {
   if (!myForm.value) return;
 
   const valid = myForm.value.querySelector('[invalid="true"]');
-  console.log(valid);
 
   if (valid) return;
 

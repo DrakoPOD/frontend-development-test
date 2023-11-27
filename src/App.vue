@@ -37,7 +37,7 @@
         <Modal v-model="taskStore.openModal" persistent>
           <div class="card">
             <div class="card-body" style="width: 400px">
-              <NewTask mode="add" />
+              <NewTask :mode="taskStore.formMode" />
               <button
                 class="btn btn-danger mt-2"
                 @click="() => taskStore.clearControls()"

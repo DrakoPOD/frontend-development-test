@@ -11,7 +11,12 @@
       {{ tag }}
       <i
         class="bi bi-x-circle close-icon"
-        @click.prevent="tagList.splice(idx, 1)"
+        @click.prevent="
+          {
+            tagList.splice(idx, 1);
+            emits('update:modelValue', tagList);
+          }
+        "
       ></i>
     </span>
     <input
