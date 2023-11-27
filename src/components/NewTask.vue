@@ -13,8 +13,8 @@
       <TagInput v-model="task.tags" />
     </div>
     <CustomInput v-model="task.assigned" label="Assigne to:" />
-    <div class="mb-4">
-      <label for="inputStatus" class="form-label">Status</label>
+    <div class="mb-4 input-group">
+      <label for="inputStatus" class="input-group-text">Status</label>
       <select
         for="inputStatus"
         class="form-select"
@@ -26,8 +26,8 @@
         </option>
       </select>
     </div>
-    <div class="mb-3">
-      <label for="inputDue" class="form-label">Due Date:</label>
+    <div class="mb-3 input-group">
+      <label for="inputDue" class="input-group-text">Due Date:</label>
       <input
         type="date"
         class="form-control"
