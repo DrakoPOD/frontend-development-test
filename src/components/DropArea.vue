@@ -12,7 +12,7 @@
       class="ghost-area"
       :class="isDragging ? 'drag-over' : 'drag-none'"
       @dragover.prevent="() => (dragOver = true)"
-      @drop.prevent="() => (dragOver = false)"
+      @drop.prevent="drop"
       @dragleave.prevent="() => (dragOver = false)"
     ></div>
   </div>
@@ -21,8 +21,12 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useDragStore } from "@/store/dragStore";
+import { useTaskStore } from "@/store/taskStore";
+
+const props = defineProps<{ idx: number; status: number }>();
 
 const dragStore = useDragStore();
+const taskStore = useTaskStore();
 
 const dragOver = ref(false);
 const isDragging = ref(false);
@@ -33,6 +37,11 @@ dragStore.$subscribe(
   },
   { detached: true }
 );
+
+function drop() {
+  dragOver.value = false;
+  taskStore.sortTask(dragStore.dragIdx, props.idx, props.status);
+}
 </script>
 <style scoped>
 .drop-line {

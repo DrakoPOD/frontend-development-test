@@ -25,7 +25,8 @@
             :key="key"
             :title="name"
             :loading="isLoading"
-            :task-list="taskByStatus[key]"
+            :task-list="taskFiltered[key]"
+            :status="key"
           />
         </div>
         <Modal v-model="openModal" persistent>
@@ -74,28 +75,30 @@ async function getTaskList() {
   isLoading.value = false;
 }
 
-/**
- * TODO: combine method "taskFiltered" and "taskByStatus"
- */
 const taskFiltered = computed(() => {
   const searchText = searchTask.value.toLocaleLowerCase();
-  if (searchText === "" || searchText == null) return taskList.value;
+  const taskIndexed = taskList.value.map((task, idx) => ({ task, idx }));
 
-  const filtered = taskList.value.filter(
-    (task) =>
-      task.title.toLocaleLowerCase().includes(searchText) ||
-      // task.description.toLocaleLowerCase().includes(searchText) ||
-      task.assigned.toLocaleLowerCase().includes(searchText) ||
-      task.tags.some((tag) => tag.toLocaleLowerCase().includes(searchText))
-  );
-  return filtered;
-});
+  let filtered: typeof taskIndexed;
 
-const taskByStatus = computed(() => {
-  const cols: Record<number, ITask[]> = {};
+  if (searchText === "" || searchText == null) {
+    filtered = taskIndexed.filter(
+      ({ task }) =>
+        task.title.toLocaleLowerCase().includes(searchText) ||
+        // task.description.toLocaleLowerCase().includes(searchText) ||
+        task.assigned.toLocaleLowerCase().includes(searchText) ||
+        task.tags.some((tag) => tag.toLocaleLowerCase().includes(searchText))
+    );
+  } else {
+    filtered = taskIndexed;
+  }
+
+  const cols: Record<number, { task: ITask; idx: number }[]> = {};
+
   columsNames.forEach((status) => {
-    cols[status.key] = taskFiltered.value.filter((x) => x.status == status.key);
+    cols[status.key] = filtered.filter(({ task }) => task.status == status.key);
   });
+
   return cols;
 });
 

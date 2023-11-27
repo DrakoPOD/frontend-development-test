@@ -2,11 +2,10 @@
   <div
     draggable="true"
     class="card col-12 px-0"
-    s
     @mouseover.prevent="() => (mouseover = true)"
     @mouseleave.prevent="() => (mouseover = false)"
-    @dragstart="() => (isDragging = true)"
-    @dragend.prevent="() => (isDragging = false)"
+    @dragstart="dragStart"
+    @dragend.prevent="dragEnd"
   >
     <div class="card-body">
       <div class="form-check fw-bold">
@@ -53,7 +52,7 @@
       </button>
     </div>
   </div>
-  <DropArea />
+  <DropArea :idx="idx + 1" :status="task.status" />
 </template>
 
 <script setup lang="ts">
@@ -66,11 +65,11 @@ import moment from "moment";
 
 interface Props {
   task: ITask;
-  selectMode: boolean;
+  selectMode?: boolean;
   idx: number;
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   selectMode: false,
 });
 
@@ -85,6 +84,16 @@ const isDragging = computed({
   },
   get: () => dragStore.isDragging,
 });
+
+function dragStart() {
+  isDragging.value = true;
+  dragStore.dragIdx = props.idx;
+}
+
+function dragEnd() {
+  isDragging.value = false;
+  dragStore.dragIdx = null;
+}
 
 async function editTask() {
   console.log("Edited");

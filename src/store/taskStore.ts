@@ -1,4 +1,4 @@
-import type { ITask } from "@/types/task";
+import type { ITask, ITaskStutus } from "@/types/task";
 import { defineStore} from "pinia";
 import { useStorage } from "@vueuse/core";
 import { TaskStatus } from "@/types/task.enums";
@@ -63,6 +63,13 @@ export const useTaskStore = defineStore('tasks', {
         }
     },
     actions: {
-        // sort(oldIndex: number, newIndex: number){}
+        sortTask(oldIndex: any, newIndex: number, newStatus: number){
+          if(oldIndex == newIndex && this.tasks[oldIndex].status == newStatus) return
+          const task = this.tasks.splice(oldIndex,1)[0]
+
+          task.status = newStatus as ITaskStutus
+
+          this.tasks.splice(newIndex,0,task)
+        }
     }
 })
