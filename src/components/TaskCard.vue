@@ -41,13 +41,13 @@
       </div>
     </div>
     <div
-      class="options d-flex flex-row g-0 align-items-start"
+      class="options btn-group border"
       :class="mouseover && !isDragging ? 'options-show' : 'options-hide'"
     >
-      <button class="btn p-0 m-0" @click.prevent="editTask">
+      <button class="btn btn-light p-0 m-0" @click.prevent="editTask">
         <i class="bi bi-pencil"></i>
       </button>
-      <button class="btn p-0 m-0">
+      <button class="btn btn-light p-0 m-0">
         <i class="bi bi-trash" @click="deleteTask"></i>
       </button>
     </div>
@@ -59,6 +59,7 @@
 import type { ITask } from "@/types/task";
 import { ref, computed } from "vue";
 import { useDragStore } from "@/store/dragStore";
+import { useTaskStore } from "@/store/taskStore";
 
 import DropArea from "./DropArea.vue";
 import moment from "moment";
@@ -74,6 +75,7 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const dragStore = useDragStore();
+const taskStore = useTaskStore();
 
 const mouseover = ref(false);
 const selected = ref(false);
@@ -96,44 +98,21 @@ function dragEnd() {
 }
 
 async function editTask() {
-  console.log("Edited");
+  taskStore.edittask = { ...props.task };
+  taskStore.idxTask = props.idx;
+  taskStore.formMode = "edit";
+  taskStore.openModal = true;
 }
 
 async function deleteTask() {
-  console.log("Deleted");
+  taskStore.idxTask = props.idx;
+  taskStore.openDeleteModal = true;
 }
 </script>
 <style scoped>
 .card {
   position: relative;
 }
-
-/* .card::before {
-  content: "";
-  position: absolute;
-  background-color: blue;
-  width: 96%;
-  height: 5px;
-  margin: 0px 2%;
-  top: -5%;
-  border-radius: 10%;
-  opacity: 0.5;
-  transition: 0.3 ease-in;
-}
-
-.card::after {
-  content: "";
-  position: absolute;
-  background-color: blue;
-  width: 96%;
-  height: 5px;
-  margin: 0px 2%;
-  top: 103%;
-  border-radius: 10%;
-  opacity: 0.5;
-  transition: 0.3 ease-in;
-} */
-
 .options {
   position: absolute;
   left: 100%;

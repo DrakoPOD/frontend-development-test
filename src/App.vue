@@ -9,12 +9,17 @@
             class="form-control"
             aria-describedby="searchInput"
             v-model="searchTask"
+            :disabled="isLoading"
           />
           <span class="input-group-text border-0">
             <i class="bi bi-search"></i>
           </span>
         </div>
-        <button class="btn btn-primary" @click="openModal = true">
+        <button
+          class="btn btn-primary"
+          @click="taskStore.openModal = true"
+          :disabled="isLoading"
+        >
           Add Task
         </button>
       </div>
@@ -29,12 +34,41 @@
             :status="key"
           />
         </div>
-        <Modal v-model="openModal" persistent>
+        <Modal v-model="taskStore.openModal" persistent>
           <div class="card">
             <div class="card-body" style="width: 400px">
               <NewTask mode="add" />
-              <button class="btn btn-danger mt-2" @click="openModal = false">
+              <button
+                class="btn btn-danger mt-2"
+                @click="() => taskStore.clearControls()"
+              >
                 Close
+              </button>
+            </div>
+          </div>
+        </Modal>
+        <Modal v-model="taskStore.openDeleteModal" persistent>
+          <div class="card">
+            <div class="card-body">
+              <p class="card-text">
+                Are you sure that you want delete this task?
+              </p>
+              <p class="card-text">This action can't be undoned</p>
+            </div>
+            <div
+              class="card-footer d-grip gap-3 d-md-flex justify-content-md-end"
+            >
+              <button
+                class="btn btn-danger"
+                @click="taskStore.deleteTask(taskStore.idxTask)"
+              >
+                Accept
+              </button>
+              <button
+                class="btn btn-secondary"
+                @click="() => taskStore.clearControls()"
+              >
+                Cancel
               </button>
             </div>
           </div>
@@ -50,12 +84,11 @@ import Column from "./components/Column.vue";
 import NewTask from "./components/NewTask.vue";
 import Modal from "@/components/Modal.vue";
 
-import { TaskStatusNames, TaskStatus } from "@/types/task.enums";
+import { TaskStatusNames } from "@/types/task.enums";
 import type { ITask, ITaskStutus } from "./types/task";
 
 import { useTaskStore } from "@/store/taskStore";
 
-const openModal = ref(false);
 const isLoading = ref(true);
 
 const taskStore = useTaskStore();

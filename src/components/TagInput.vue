@@ -1,18 +1,33 @@
 <template>
-  <div class="input-tag form-control d-flex flex-row gap-1 flex-wrap align-center p-0"
-    :class="{ 'input-tag-focus': isFocus }">
-    <span class="tag-div badge bg-primary rounded-pill align-middle" v-for="(tag, idx) in tagList" :key="idx">
+  <div
+    class="input-tag form-control d-flex flex-row gap-1 flex-wrap align-center p-0"
+    :class="{ 'input-tag-focus': isFocus }"
+  >
+    <span
+      class="tag-div badge bg-primary rounded-pill align-middle"
+      v-for="(tag, idx) in tagList"
+      :key="idx"
+    >
       {{ tag }}
-      <i class="bi bi-x-circle close-icon" @click.prevent="tagList.splice(idx, 1)"></i>
+      <i
+        class="bi bi-x-circle close-icon"
+        @click.prevent="tagList.splice(idx, 1)"
+      ></i>
     </span>
-    <input class="flex-grow-1 p-1" @keydown="enterTag" type="text" @focus="isFocus = true" @focusout="isFocus = false"
-      v-model="inputValue" />
+    <input
+      class="flex-grow-1 p-1"
+      @keydown="enterTag"
+      type="text"
+      @focus="isFocus = true"
+      @focusout="isFocus = false"
+      v-model="inputValue"
+    />
   </div>
 </template>
 <script setup lang="ts">
 import { ref } from "vue";
 
-withDefaults(defineProps<{ modelValue?: String[] }>(), {
+const props = withDefaults(defineProps<{ modelValue?: String[] }>(), {
   modelValue: () => [],
 });
 
@@ -20,7 +35,7 @@ const emits = defineEmits<{
   (e: "update:modelValue", value: String[]): void;
 }>();
 
-const tagList = ref<String[]>([]);
+const tagList = ref<String[]>([...props.modelValue]);
 const isFocus = ref(false);
 
 const inputValue = ref("");

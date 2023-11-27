@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="">
+  <form ref="myForm" @submit.prevent="">
     <h1>{{ mode == "add" ? "Add Task" : "Edit Task" }}</h1>
     <CustomInput
       v-model="task.title"
@@ -21,7 +21,10 @@
         aria-label="Task Status"
         v-model="task.status"
       >
-        <option v-for="{ label, value } in taskStatusOptions" :value="value">
+        <option
+          v-for="{ label, value } in taskStatusOptions"
+          :value="Number(value)"
+        >
           {{ label }}
         </option>
       </select>
@@ -35,22 +38,20 @@
         v-model="task.due"
       />
     </div>
-    <button
-      type="submit"
-      class="btn btn-primary"
-      @click="mode == 'add' ? addTask() : editTask()"
-    >
+    <button type="submit" class="btn btn-primary" @click="addTask()">
       {{ mode == "add" ? "Add task" : "Save Changes" }}
     </button>
   </form>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { onBeforeMount, ref } from "vue";
 import { TaskStatusNames } from "@/types/task.enums";
 import type { ITask, ITaskStutus } from "@/types/task";
 import TagInput from "@/components/TagInput.vue";
 import CustomInput from "@/components/CustomInput.vue";
+
+import { useTaskStore } from "@/store/taskStore";
 
 import type { IValidateObjectOfRules } from "@/types/funcTypes";
 
@@ -67,6 +68,10 @@ withDefaults(defineProps<Props>(), {
 });
 
 const emits = defineEmits<Emits>();
+
+const taskStore = useTaskStore();
+
+const myForm = ref<HTMLFormElement>();
 
 const taskStatusOptions = Object.keys(TaskStatusNames).map((key) => {
   return {
@@ -92,13 +97,26 @@ const validationRules: IValidateObjectOfRules = {
 };
 
 function addTask() {
-  console.log("Task added");
-  emits("task-added");
+  if (!myForm.value) return;
+
+  const valid = myForm.value.querySelector('[invalid="true"]');
+  console.log(valid);
+
+  if (valid) return;
+
+  if (taskStore.formMode == "add") {
+    taskStore.addTask(task.value);
+  } else {
+    taskStore.updateTask(task.value, taskStore.idxTask);
+  }
 }
 
-function editTask() {
-  console.log("Task Edited");
-}
+onBeforeMount(() => {
+  if (taskStore.formMode == "edit") {
+    if (!taskStore.edittask) return;
+    task.value = taskStore.edittask;
+  }
+});
 </script>
 
 <style scoped></style>

@@ -2,6 +2,7 @@
   <div class="mb-1">
     <label :for="ID">{{ label }}</label>
     <input
+      :invalid="!activeValidation"
       v-model="value"
       type="text"
       :id="ID"
@@ -56,6 +57,18 @@ const value = computed({
 
 const isValid = ref(true);
 const inputMsg = ref("");
+
+const activeValidation = computed(() => {
+  const rules = props.rules;
+  if (rules.length > 0) {
+    const rule = rules.find((f) => f(props.modelValue) != true);
+    if (rule) {
+      inputMsg.value = rule(props.modelValue) as string;
+      return false;
+    }
+  }
+  return true;
+});
 
 function validate() {
   const rules = props.rules;
