@@ -114,7 +114,7 @@ const taskFiltered = computed(() => {
 
   let filtered: typeof taskIndexed;
 
-  if (searchText === "" || searchText == null) {
+  if (searchText !== "" && searchText != null) {
     filtered = taskIndexed.filter(
       ({ task }) =>
         task.title.toLocaleLowerCase().includes(searchText) ||
