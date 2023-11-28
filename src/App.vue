@@ -30,7 +30,7 @@
             :key="key"
             :title="name"
             :loading="isLoading"
-            :task-list="taskFiltered[key]"
+            :task-list="taskFilteredWithStatus[key]"
             :status="key"
           />
         </div>
@@ -109,7 +109,7 @@ async function getTaskList() {
   isLoading.value = false;
 }
 
-const taskFiltered = computed(() => {
+const taskFilteredWithStatus = computed(() => {
   const filtered = filterTask(taskStore.tasks, searchTask.value);
 
   const cols: Record<number, { task: ITask; idx: number }[]> = {};

@@ -1,6 +1,6 @@
 <template>
   <div
-    draggable="true"
+    :draggable="draggable"
     class="card col-12 px-0"
     @mouseover.prevent="() => (mouseover = true)"
     @mouseleave.prevent="() => (mouseover = false)"
@@ -8,18 +8,20 @@
     @dragend.prevent="dragEnd"
   >
     <div class="card-body">
-      <div class="form-check fw-bold">
-        <input
-          :disabled="!selectMode"
-          class="form-check-input"
-          :class="selectMode ? 'select-show' : 'select-hide'"
-          type="checkbox"
-          v-model="selected"
-          id="selectMode"
-        />
-        <label for="selectMode" class="form-check-label card-title">{{
-          task.title
-        }}</label>
+      <div class="d-flex flex-row align-center aling-items-center">
+        <div class="form-check fw-bold">
+          <input
+            :disabled="!selectMode"
+            class="form-check-input"
+            :class="selectMode ? 'select-show' : 'select-hide'"
+            type="checkbox"
+            v-model="selected"
+            id="selectMode"
+          />
+        </div>
+        <div>
+          <h6 class="card-title" >{{ task.title }}</h6>
+        </div>
       </div>
 
       <p class="card-text mb-1">
@@ -57,7 +59,7 @@
 
 <script setup lang="ts">
 import type { ITask } from "@/types/task";
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
 import { useDragStore } from "@/store/dragStore";
 import { useTaskStore } from "@/store/taskStore";
 
@@ -68,11 +70,14 @@ interface Props {
   task: ITask;
   selectMode?: boolean;
   idx: number;
+  draggable: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   selectMode: false,
+  draggable: true,
 });
+
 
 const dragStore = useDragStore();
 const taskStore = useTaskStore();
@@ -80,12 +85,18 @@ const taskStore = useTaskStore();
 const mouseover = ref(false);
 const selected = ref(false);
 
+defineExpose({selected})
+
 const isDragging = computed({
   set: (val: boolean) => {
     dragStore.isDragging = val;
   },
   get: () => dragStore.isDragging,
 });
+
+watch(()=>props.selectMode, (val)=>{
+  if(!val) {selected.value = false}
+})
 
 function dragStart() {
   isDragging.value = true;

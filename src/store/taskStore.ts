@@ -21,16 +21,6 @@ export const useTaskStore = defineStore("tasks", () => {
   const openDeleteModal = ref(false);
   const idxTask = ref<number | null>(null);
 
-  const sortTask = (oldIndex: any, newIndex: number, newStatus: number) => {
-    if (oldIndex == newIndex && tasks.value[oldIndex].status == newStatus)
-      return;
-    const task = tasks.value.splice(oldIndex, 1)[0];
-
-    task.status = newStatus as ITaskStutus;
-
-    tasks.value.splice(newIndex, 0, task);
-  };
-
   const deleteTask = (idx: number | null) => {
     openDeleteModal.value = false;
     idxTask.value = null;
@@ -68,7 +58,6 @@ export const useTaskStore = defineStore("tasks", () => {
     openModal,
     openDeleteModal,
     idxTask,
-    sortTask,
     deleteTask,
     addTask,
     updateTask,
