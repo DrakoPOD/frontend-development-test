@@ -29,7 +29,6 @@
       @focusout="isFocus = false"
       v-model="inputValue"
     />
-    {{ inputValue }}
   </div>
 </template>
 <script setup lang="ts">
@@ -55,10 +54,10 @@ const inputValue = ref("");
 function enterTag(e: KeyboardEvent) {
   const { key } = e;
 
-  if (key == "Enter") {
+  if (key == "Enter" || key == ',' || key == ';') {
     e.preventDefault();
 
-    const text = inputValue.value.toString();
+    const text = inputValue.value.replace(',', '').replace(';','');
 
     if (text === "") return;
 
