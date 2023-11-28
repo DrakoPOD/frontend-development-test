@@ -2,6 +2,7 @@
   <div class="mb-1">
     <label :for="ID">{{ label }}</label>
     <input
+      v-bind="$attrs"
       :invalid="!activeValidation"
       v-model="value"
       type="text"
@@ -34,6 +35,10 @@ interface Props {
   rules?: IValidationRuleFunction<any>[];
   required?: boolean;
 }
+
+defineOptions({
+  inheritAttrs: false,
+});
 
 const props = withDefaults(defineProps<Props>(), {
   modelValue: "",

@@ -67,3 +67,78 @@ export const sampleTasksList: ITask[] = [
     status: TaskStatus.DONE,
   },
 ].map((x) => ({ ...x }));
+
+export const samplePokemonTasks = [
+  {
+    title: "Capture Pikachu",
+    description:
+      "Embark on a journey to capture Pikachu in the Viridian Forest",
+    assigned: "Ash Ketchum",
+    tags: ["Adventure", "Capture", "Pokemon"],
+    due: "2023-02-15",
+    status: TaskStatus.TO_DO,
+  },
+  {
+    title: "Train Charmander for Battle",
+    description:
+      "Train Charmander to become a powerful Pokémon for upcoming battles",
+    assigned: "Brock",
+    tags: ["Training", "Battles", "Fire-type"],
+    due: "2023-03-01",
+    status: TaskStatus.TO_DO,
+  },
+  {
+    title: "Explore Cerulean Cave for Rare Pokémon",
+    description:
+      "Embark on a journey to Cerulean Cave to discover and capture rare Pokémon",
+    assigned: "Misty",
+    tags: ["Exploration", "Rare Pokemon"],
+    due: "2023-02-28",
+    status: TaskStatus.IN_PROGRESS,
+  },
+  {
+    title: "Evolve Eevee into Vaporeon",
+    description:
+      "Use a Water Stone to evolve Eevee into the Water-type Pokémon Vaporeon",
+    assigned: "May",
+    tags: ["Evolution", "Water-type"],
+    due: "2023-03-15",
+    status: TaskStatus.IN_PROGRESS,
+  },
+  {
+    title: "Battle Team Rocket at the Pokemon Center",
+    description:
+      "Confront Team Rocket at the local Pokemon Center and protect the Pokémon",
+    assigned: "James",
+    tags: ["Battles", "Team Rocket"],
+    due: "2023-02-20",
+    status: TaskStatus.IN_PROGRESS,
+  },
+  {
+    title: "Complete the Pokémon League Challenge",
+    description:
+      "Face the Elite Four and become the Pokémon Champion by completing the League Challenge",
+    assigned: "Trainer Red",
+    tags: ["Champion Challenge", "Elite Four"],
+    due: "2023-03-05",
+    status: TaskStatus.DONE,
+  },
+  {
+    title: "Attend Pokémon Battle Seminar",
+    description:
+      "Participate in a Pokémon battle seminar to enhance battling skills",
+    assigned: "Ash Ketchum",
+    tags: ["Training", "Battles"],
+    due: "2023-02-18",
+    status: TaskStatus.IN_PROGRESS,
+  },
+  {
+    title: "Rescue Pikachu from Team Rocket",
+    description:
+      "Rescue Pikachu from the clutches of Team Rocket in the Viridian City",
+    assigned: "Ash Ketchum",
+    tags: ["Adventure", "Rescue", "Team Rocket"],
+    due: "2023-02-25",
+    status: TaskStatus.TO_DO,
+  },
+];

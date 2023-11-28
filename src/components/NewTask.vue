@@ -1,18 +1,27 @@
 <template>
-  <form ref="myForm" @submit.prevent="">
+  <form ref="myForm" @submit.prevent="" data-test="formTask">
     <h1>{{ mode == "add" ? "Add Task" : "Edit Task" }}</h1>
     <CustomInput
       v-model="task.title"
       label="Title:"
       :rules="validationRules.title!"
       required
+      data-test="inputTitle"
     />
-    <CustomInput v-model="task.description" label="Description:" />
+    <CustomInput
+      v-model="task.description"
+      label="Description:"
+      data-test="inputDescription"
+    />
     <div class="mb-4">
       <label for="inputTags" class="form-label">Tags:</label>
-      <TagInput v-model="task.tags" />
+      <TagInput v-model="task.tags" data-test="inputTag" />
     </div>
-    <CustomInput v-model="task.assigned" label="Assigne to:" />
+    <CustomInput
+      v-model="task.assigned"
+      label="Assigne to:"
+      data-test="inputAssigned"
+    />
     <div class="mb-4 input-group">
       <label for="inputStatus" class="input-group-text">Status</label>
       <select
@@ -20,6 +29,7 @@
         class="form-select"
         aria-label="Task Status"
         v-model="task.status"
+        data-test="selectStatus"
       >
         <option
           v-for="{ label, value } in taskStatusOptions"
@@ -36,6 +46,7 @@
         class="form-control"
         id="inputDue"
         v-model="task.due"
+        data-test="inputDue"
       />
     </div>
     <button type="submit" class="btn btn-primary" @click="addTask()">
@@ -54,13 +65,14 @@ import CustomInput from "@/components/CustomInput.vue";
 import { useTaskStore } from "@/store/taskStore";
 
 import type { IValidateObjectOfRules } from "@/types/funcTypes";
+import { emit } from "process";
 
 interface Props {
   mode: "add" | "edit";
 }
 
 interface Emits {
-  (e: "task-added"): void;
+  (e: "task-added", value: object): void;
 }
 
 withDefaults(defineProps<Props>(), {
@@ -104,6 +116,7 @@ function addTask() {
   if (valid) return;
 
   if (taskStore.formMode == "add") {
+    emits("task-added", task.value);
     taskStore.addTask(task.value);
   } else {
     taskStore.updateTask(task.value, taskStore.idxTask);

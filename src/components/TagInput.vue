@@ -7,6 +7,7 @@
       class="tag-div badge bg-primary rounded-pill align-middle"
       v-for="(tag, idx) in tagList"
       :key="idx"
+      data-test="tag"
     >
       {{ tag }}
       <i
@@ -20,6 +21,7 @@
       ></i>
     </span>
     <input
+      v-bind="$attrs"
       class="flex-grow-1 p-1"
       @keydown="enterTag"
       type="text"
@@ -27,10 +29,15 @@
       @focusout="isFocus = false"
       v-model="inputValue"
     />
+    {{ inputValue }}
   </div>
 </template>
 <script setup lang="ts">
 import { ref } from "vue";
+
+defineOptions({
+  inheritAttrs: false,
+});
 
 const props = withDefaults(defineProps<{ modelValue?: String[] }>(), {
   modelValue: () => [],

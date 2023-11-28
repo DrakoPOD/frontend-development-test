@@ -88,6 +88,7 @@ import { TaskStatusNames } from "@/types/task.enums";
 import type { ITask, ITaskStutus } from "./types/task";
 
 import { useTaskStore } from "@/store/taskStore";
+import { filterTask } from "./utils/utilFuncs";
 
 const isLoading = ref(true);
 
@@ -109,22 +110,7 @@ async function getTaskList() {
 }
 
 const taskFiltered = computed(() => {
-  const searchText = searchTask.value.toLocaleLowerCase();
-  const taskIndexed = taskList.value.map((task, idx) => ({ task, idx }));
-
-  let filtered: typeof taskIndexed;
-
-  if (searchText !== "" && searchText != null) {
-    filtered = taskIndexed.filter(
-      ({ task }) =>
-        task.title.toLocaleLowerCase().includes(searchText) ||
-        // task.description.toLocaleLowerCase().includes(searchText) ||
-        task.assigned.toLocaleLowerCase().includes(searchText) ||
-        task.tags.some((tag) => tag.toLocaleLowerCase().includes(searchText))
-    );
-  } else {
-    filtered = taskIndexed;
-  }
+  const filtered = filterTask(taskStore.tasks, searchTask.value);
 
   const cols: Record<number, { task: ITask; idx: number }[]> = {};
 
