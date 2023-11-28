@@ -25,7 +25,7 @@ const emits = defineEmits<Emits>();
 .custom-modal {
   position: absolute;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   z-index: 100;
 
   top: 0;
@@ -39,7 +39,7 @@ const emits = defineEmits<Emits>();
 .overlay {
   position: absolute;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
 
   background-color: rgb(0, 0, 0, 0.4);
   backdrop-filter: blur(6px);
