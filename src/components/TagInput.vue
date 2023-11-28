@@ -23,7 +23,7 @@
     <input
       v-bind="$attrs"
       class="flex-grow-1 p-1"
-      @keydown="enterTag"
+      @input="enterTag"
       type="text"
       @focus="isFocus = true"
       @focusout="isFocus = false"
@@ -51,12 +51,10 @@ const isFocus = ref(false);
 
 const inputValue = ref("");
 
-function enterTag(e: KeyboardEvent) {
-  const { key } = e;
+function enterTag(e: Event) {
+  const key = (e as InputEvent).data
 
-  if (key == "Enter" || key == ',' || key == ';') {
-    e.preventDefault();
-
+  if (key == ',' || key == ';') {
     const text = inputValue.value.replace(',', '').replace(';','');
 
     if (text === "") return;
