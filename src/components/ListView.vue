@@ -12,6 +12,7 @@
             v-for="(task, idx) in taskList"
             :key="task.id"
             @mouseover="mouseOverRow = idx"
+            @mouseleave="mouseOverRow = null"
           >
             <th scope="row">{{ task.title }}</th>
             <!-- <td>{{ task.description }}</td> -->
@@ -33,16 +34,20 @@
             <td>{{ task.due }}</td>
 
             <div
-              class="options btn-group border"
-              :class="mouseOverRow == idx ? 'options-show' : 'options-hide'"
+              class="options btn-group border p-0"
+              :class="
+                mouseOverRow == idx && !dragging
+                  ? 'options-show'
+                  : 'options-hide'
+              "
             >
               <button
-                class="btn btn-light p-0 m-0"
+                class="btn btn-light p-1 m-0"
                 @click.prevent="editTask(task, idx)"
               >
                 <i class="bi bi-pencil"></i>
               </button>
-              <button class="btn btn-light p-0 m-0">
+              <button class="btn btn-light p-1 m-0">
                 <i class="bi bi-trash" @click="deleteTask(idx)"></i>
               </button>
             </div>
@@ -101,6 +106,7 @@ const sortList = ref<HTMLElement>();
 var sortable: ReturnType<typeof Sortable.create>;
 
 const mouseOverRow = ref<number | null>(null);
+const dragging = ref(false);
 
 onMounted(() => {
   sortable = Sortable.create(sortList.value!, {
@@ -108,8 +114,12 @@ onMounted(() => {
     ghostClass: "ghost-task",
     filter: ".loader-row",
     onEnd: (evt) => {
+      dragging.value = false;
       console.log(evt.oldIndex, evt.newIndex);
       dragStore.sortIndexTask(evt.oldIndex, evt.newIndex);
+    },
+    onStart: () => {
+      dragging.value = true;
     },
   });
 });
@@ -141,6 +151,7 @@ tbody > tr {
 
 .options {
   position: absolute;
+  top: 5%;
   left: 100%;
   transform: translate(-100%, 0);
   transition: all 0.3s ease-in;
