@@ -20,7 +20,7 @@
               v-for="{ task, idx } in taskList"
               :task="task"
               :idx="idx"
-              :key="idx"
+              :key="task.id"
               :draggable="allowDrag"
               :select-mode="activeDrag"
               ref="taskCards"

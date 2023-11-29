@@ -1,5 +1,6 @@
 import type { ITask, ITaskStutus } from "@/types/task";
 import { defineStore } from "pinia";
+import { v4 as uuidv4 } from 'uuid';
 import { useStorage } from "@vueuse/core";
 import { TaskStatus } from "@/types/task.enums";
 import { sampleTasksList } from "@/utils/samples";
@@ -31,6 +32,7 @@ export const useTaskStore = defineStore("tasks", () => {
 
   const addTask = (task: ITask | null) => {
     if (!task) return;
+    task["id"] = uuidv4()
     tasks.value.push(task);
     clearControls();
   };

@@ -1,4 +1,5 @@
 import moment from "moment";
+import {v4 as uuidv4 } from 'uuid';
 
 import type { ITask } from "@/types/task";
 import { TaskStatus } from "@/types/task.enums";
@@ -10,6 +11,7 @@ export const sampleTask: ITask = {
   tags: ["Ama", "Casa", "Pedro"],
   assigned: "Willy Malboa",
   due: moment().format("MMM Do YY"),
+  id: uuidv4()
 };
 
 export const sampleTasksList: ITask[] = [
@@ -20,6 +22,7 @@ export const sampleTasksList: ITask[] = [
     tags: ["Development", "Security"],
     due: "2024-02-15",
     status: TaskStatus.TO_DO,
+    id: uuidv4()
   },
   {
     title: "Create Main User Interface",
@@ -29,6 +32,7 @@ export const sampleTasksList: ITask[] = [
     tags: ["Design", "Frontend"],
     due: "2024-03-01",
     status: TaskStatus.TO_DO,
+    id: uuidv4()
   },
   {
     title: "Optimize Database Performance",
@@ -38,6 +42,7 @@ export const sampleTasksList: ITask[] = [
     tags: ["Database", "Performance"],
     due: "2024-02-28",
     status: TaskStatus.IN_PROGRESS,
+    id: uuidv4()
   },
   {
     title: "Develop REST API for User Module",
@@ -47,6 +52,7 @@ export const sampleTasksList: ITask[] = [
     tags: ["Development", "Backend"],
     due: "2024-03-15",
     status: TaskStatus.IN_PROGRESS,
+    id: uuidv4()
   },
   {
     title: "Review and Fix Current Version Errors",
@@ -56,6 +62,7 @@ export const sampleTasksList: ITask[] = [
     tags: ["Quality", "Maintenance"],
     due: "2024-02-20",
     status: TaskStatus.IN_PROGRESS,
+    id: uuidv4()
   },
   {
     title: "Publish Version 1.0.0",
@@ -65,6 +72,7 @@ export const sampleTasksList: ITask[] = [
     tags: ["Deployment", "Versioning"],
     due: "2024-03-05",
     status: TaskStatus.DONE,
+    id: uuidv4()
   },
 ].map((x) => ({ ...x }));
 
@@ -77,6 +85,7 @@ export const samplePokemonTasks = [
     tags: ["Adventure", "Capture", "Pokemon"],
     due: "2023-02-15",
     status: TaskStatus.TO_DO,
+    id: uuidv4()
   },
   {
     title: "Train Charmander for Battle",
@@ -86,6 +95,7 @@ export const samplePokemonTasks = [
     tags: ["Training", "Battles", "Fire-type"],
     due: "2023-03-01",
     status: TaskStatus.TO_DO,
+    id: uuidv4()
   },
   {
     title: "Explore Cerulean Cave for Rare Pokémon",
@@ -95,6 +105,7 @@ export const samplePokemonTasks = [
     tags: ["Exploration", "Rare Pokemon"],
     due: "2023-02-28",
     status: TaskStatus.IN_PROGRESS,
+    id: uuidv4()
   },
   {
     title: "Evolve Eevee into Vaporeon",
@@ -104,6 +115,7 @@ export const samplePokemonTasks = [
     tags: ["Evolution", "Water-type"],
     due: "2023-03-15",
     status: TaskStatus.IN_PROGRESS,
+    id: uuidv4()
   },
   {
     title: "Battle Team Rocket at the Pokemon Center",
@@ -113,6 +125,7 @@ export const samplePokemonTasks = [
     tags: ["Battles", "Team Rocket"],
     due: "2023-02-20",
     status: TaskStatus.IN_PROGRESS,
+    id: uuidv4()
   },
   {
     title: "Complete the Pokémon League Challenge",
@@ -122,6 +135,7 @@ export const samplePokemonTasks = [
     tags: ["Champion Challenge", "Elite Four"],
     due: "2023-03-05",
     status: TaskStatus.DONE,
+    id: uuidv4()
   },
   {
     title: "Attend Pokémon Battle Seminar",
@@ -131,6 +145,7 @@ export const samplePokemonTasks = [
     tags: ["Training", "Battles"],
     due: "2023-02-18",
     status: TaskStatus.IN_PROGRESS,
+    id: uuidv4()
   },
   {
     title: "Rescue Pikachu from Team Rocket",
@@ -140,5 +155,6 @@ export const samplePokemonTasks = [
     tags: ["Adventure", "Rescue", "Team Rocket"],
     due: "2023-02-25",
     status: TaskStatus.TO_DO,
+    id: uuidv4()
   },
-];
+].map(x=>({...x}));

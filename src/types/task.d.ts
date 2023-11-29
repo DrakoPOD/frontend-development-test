@@ -9,4 +9,5 @@ export interface ITask {
     tags: string[];
     due: Date | string | null;
     status: ITaskStutus;
+    id?: string;
 }
