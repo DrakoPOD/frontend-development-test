@@ -11,7 +11,7 @@ type IUseStorage<T> = ReturnType<typeof useStorage<T>>;
 
 export const useTaskStore = defineStore("tasks", () => {
   const tasks: IUseStorage<ITask[]> = useStorage<ITask[]>(
-    "TASK_LIST",
+    "TASK_LIS_v2",
     sampleTasksList,
     localStorage
   );
