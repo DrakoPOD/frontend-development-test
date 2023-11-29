@@ -171,5 +171,12 @@ onMounted(async () => {
 
 .container {
   height: 100%;
+  width: 100%;
+  /* overflow: auto; */
+  overflow-y: overlay;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
 }
 </style>
