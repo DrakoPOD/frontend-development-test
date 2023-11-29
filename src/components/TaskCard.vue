@@ -1,7 +1,7 @@
 <template>
   <div
     :draggable="draggable"
-    class="card col-12 px-0"
+    class="card col-12 px-0 prevent-select"
     @mouseover.prevent="() => (mouseover = true)"
     @mouseleave.prevent="() => (mouseover = false)"
     @dragstart="dragStart"
@@ -154,5 +154,9 @@ async function deleteTask() {
 .options > .btn {
   width: 30px;
   height: 30px;
+}
+
+.prevent-select {
+  user-select: none;
 }
 </style>

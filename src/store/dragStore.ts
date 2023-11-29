@@ -19,7 +19,14 @@ export const useDragStore = defineStore("drag", () => {
     dragList.value = null
   }
 
-  const sortTask = (oldIndex: any, newIndex: number, newStatus: number) => {
+  const sortIndexTask = (oldIndex: number |undefined, newIndex: number | undefined) =>{
+    if (newIndex == undefined || oldIndex == undefined) return;
+    if (oldIndex == newIndex) return;
+    const task = taskStore.tasks.splice(oldIndex, 1)[0];
+    taskStore.tasks.splice(newIndex, 0, task);
+  }
+
+  const sortTask = (oldIndex: number, newIndex: number, newStatus: number) => {
     if (dragList.value == null || dragList.value.length == 0){
       if (oldIndex == newIndex && taskStore.tasks[oldIndex].status == newStatus)
       return;
@@ -43,5 +50,5 @@ export const useDragStore = defineStore("drag", () => {
   cleanDrag()
 }
 
-  return { isDragging, dragIdx, currentColumn, dragList, sortTask, cleanDrag };
+  return { isDragging, dragIdx, currentColumn, dragList, sortIndexTask, sortTask, cleanDrag };
 });

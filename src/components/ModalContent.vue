@@ -2,7 +2,7 @@
   <div class="custom-modal">
     <div class="overlay" @click="emits('overlayClick')"></div>
     <div class="modal-container">
-      <slot />
+      <slot></slot>
     </div>
   </div>
 </template>

@@ -38,7 +38,7 @@ dragStore.$subscribe(
 
 function drop() {
   dragOver.value = false;
-  dragStore.sortTask(dragStore.dragIdx, props.idx, props.status);
+  dragStore.sortTask(dragStore.dragIdx!, props.idx, props.status);
 }
 </script>
 <style scoped>

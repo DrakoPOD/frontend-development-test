@@ -24,69 +24,95 @@
         </button>
       </div>
       <div class="col-12">
-        <div class="row">
-          <Column
-            v-for="{ key, name } in columsNames"
-            :key="key"
-            :title="name"
-            :loading="isLoading"
-            :task-list="taskFilteredWithStatus[key]"
-            :status="key"
-          />
-        </div>
-        <Modal v-model="taskStore.openModal" persistent>
-          <div class="card">
-            <div class="card-body" style="width: 400px">
-              <NewTask :mode="taskStore.formMode" />
-              <button
-                class="btn btn-danger mt-2"
-                @click="() => taskStore.clearControls()"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </Modal>
-        <Modal v-model="taskStore.openDeleteModal" persistent>
-          <div class="card">
-            <div class="card-body">
-              <p class="card-text">
-                Are you sure that you want delete this task?
-              </p>
-              <p class="card-text">This action can't be undoned</p>
-            </div>
-            <div
-              class="card-footer d-grip gap-3 d-md-flex justify-content-md-end"
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <button
+              class="nav-link"
+              :class="{ active: currentTab == 'kanban' }"
+              @click="changeTab('kanban')"
             >
-              <button
-                class="btn btn-danger"
-                @click="taskStore.deleteTask(taskStore.idxTask)"
-              >
-                Accept
-              </button>
-              <button
-                class="btn btn-secondary"
-                @click="() => taskStore.clearControls()"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </Modal>
+              <span class="m-2"><i class="bi bi-kanban"></i></span>Kanban
+            </button>
+          </li>
+          <li class="nav-item">
+            <button
+              class="nav-link"
+              :class="{ active: currentTab == 'list' }"
+              @click="changeTab('list')"
+            >
+              <span class="m-2"><i class="bi bi-list-task"></i></span>List
+            </button>
+          </li>
+        </ul>
+      </div>
+      <div class="col-12">
+        <div class="row">
+          <template v-if="currentTab == 'kanban'">
+            <Column
+              v-for="{ key, name } in columsNames"
+              :key="key"
+              :title="name"
+              :loading="isLoading"
+              :task-list="taskFilteredWithStatus[key]"
+              :status="key"
+            />
+          </template>
+          <template v-else>
+            <list-view :task-list="taskFiltered" :loading="isLoading" />
+          </template>
+        </div>
       </div>
     </div>
+    <Modal v-model="taskStore.openModal" persistent>
+      <div class="card">
+        <div class="card-body" style="width: 400px">
+          <NewTask :mode="taskStore.formMode" />
+          <button
+            class="btn btn-danger mt-2"
+            @click="() => taskStore.clearControls()"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </Modal>
+    <Modal v-model="taskStore.openDeleteModal" persistent>
+      <div class="card">
+        <div class="card-body">
+          <p class="card-text">Are you sure that you want delete this task?</p>
+          <p class="card-text">This action can't be undoned</p>
+        </div>
+        <div class="card-footer d-grip gap-3 d-md-flex justify-content-md-end">
+          <button
+            class="btn btn-danger"
+            @click="taskStore.deleteTask(taskStore.idxTask)"
+          >
+            Accept
+          </button>
+          <button
+            class="btn btn-secondary"
+            @click="() => taskStore.clearControls()"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </Modal>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
+import { useStorage } from "@vueuse/core";
+
 import Column from "./components/Column.vue";
 import NewTask from "./components/NewTask.vue";
 import Modal from "@/components/Modal.vue";
+import ListView from "./components/ListView.vue";
 
-import { TaskStatusNames } from "@/types/task.enums";
 import type { ITask, ITaskStutus } from "./types/task";
 
+import { TaskStatusNames } from "@/types/task.enums";
 import { useTaskStore } from "@/store/taskStore";
 import { filterTask } from "./utils/utilFuncs";
 
@@ -96,6 +122,11 @@ const taskStore = useTaskStore();
 const taskList = ref<ITask[]>([]);
 
 const searchTask = ref("");
+const currentTab = useStorage<"kanban" | "list">("view-mode", "kanban");
+
+function changeTab(tabName: "kanban" | "list") {
+  currentTab.value = tabName;
+}
 
 const columsNames = Object.keys(TaskStatusNames).map((key) => ({
   key: Number(key),
@@ -109,8 +140,14 @@ async function getTaskList() {
   isLoading.value = false;
 }
 
+const taskFiltered = computed(() =>
+  filterTask(taskStore.tasks, searchTask.value)
+);
+
 const taskFilteredWithStatus = computed(() => {
-  const filtered = filterTask(taskStore.tasks, searchTask.value);
+  const filtered = filterTask(taskStore.tasks, searchTask.value).map(
+    (task, idx) => ({ task, idx })
+  );
 
   const cols: Record<number, { task: ITask; idx: number }[]> = {};
 
@@ -130,5 +167,9 @@ onMounted(async () => {
 .input-group {
   width: 250px !important;
   align-items: center;
+}
+
+.container {
+  height: 100%;
 }
 </style>
