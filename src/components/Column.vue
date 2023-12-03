@@ -3,8 +3,13 @@
     <div class="card">
       <div class="card-header">
         <div class="d-flex gap-2 flex-row align-center align-items-center">
-
-          <button class="btn" @click="selectMode"  :class="{'btn-secondary active': activeDrag}"><i class="bi bi-list-check" style="font-size: 1.5rem;"></i></button>
+          <button
+            class="btn"
+            @click="selectMode"
+            :class="{ 'btn-secondary active': activeDrag }"
+          >
+            <i class="bi bi-list-check" style="font-size: 1.5rem"></i>
+          </button>
           <div>
             <h4 class="card-title">
               {{ props.title }}
@@ -24,6 +29,7 @@
               :draggable="allowDrag"
               :select-mode="activeDrag"
               ref="taskCards"
+              @card-selected="selectCard"
             />
           </template>
           <template v-else>
@@ -55,33 +61,62 @@ const props = withDefaults(defineProps<Props>(), {
   loading: false,
 });
 
-const dragStore = useDragStore()
+const dragStore = useDragStore();
 
-const taskCards = ref<Array<InstanceType<typeof TaskCard>>>([])
+const taskCards = ref<Array<InstanceType<typeof TaskCard>>>([]);
 
-const allowDrag = computed(()=>{
-  if (dragStore.currentColumn == null) return true
-  if (dragStore.currentColumn == props.status) return true
-  return false
-})
+const allowDrag = computed(() => {
+  if (dragStore.currentColumn == null) return true;
+  if (dragStore.currentColumn == props.status) return true;
+  return false;
+});
 
-const activeDrag = computed(()=> dragStore.currentColumn == props.status)
+const activeDrag = computed(() => dragStore.currentColumn == props.status);
 
-function selectMode(){
-  dragStore.dragList = null
-  if(dragStore.currentColumn != props.status){
-    dragStore.currentColumn = props.status
+function selectMode() {
+  dragStore.dragList = null;
+  if (dragStore.currentColumn != props.status) {
+    dragStore.currentColumn = props.status;
   } else {
-    dragStore.currentColumn = null
+    dragStore.currentColumn = null;
   }
 }
 
-const cardSelected = computed(()=>{ 
-  const arr = taskCards.value.map(x=> x.selected)
-  if(activeDrag.value){
-    const cardArr = props.taskList.flatMap((task,i)=> arr[i] ? [task.idx] : [] )
-    dragStore.dragList = cardArr
+/* const cardSelected = computed(() => {
+  const arr = taskCards.value.map((x) => x.selected);
+  console.log(arr);
+  if (activeDrag.value) {
+    const cardArr = props.taskList.flatMap((task, i) =>
+      arr[i] ? [task.idx] : []
+    );
+    dragStore.dragList = cardArr;
   }
-  return arr
-})
+  return arr;
+});
+
+watch(
+  taskCards.value,
+  (taks) => {
+    const arr = taks.map((x) => x.selected);
+    console.log(arr);
+    if (activeDrag.value) {
+      const cardArr = props.taskList.flatMap((task, i) =>
+        arr[i] ? [task.idx] : []
+      );
+      dragStore.dragList = cardArr;
+    }
+  },
+  { deep: true }
+); */
+
+function selectCard() {
+  const arr = taskCards.value.map((x) => x.selected);
+  console.log(arr);
+  if (activeDrag.value) {
+    const cardArr = props.taskList.flatMap((task, i) =>
+      arr[i] ? [task.idx] : []
+    );
+    dragStore.dragList = cardArr;
+  }
+}
 </script>

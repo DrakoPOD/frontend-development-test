@@ -20,7 +20,7 @@
           />
         </div>
         <div>
-          <h6 class="card-title" >{{ task.title }}</h6>
+          <h6 class="card-title">{{ task.title }}</h6>
         </div>
       </div>
 
@@ -78,14 +78,14 @@ const props = withDefaults(defineProps<Props>(), {
   draggable: true,
 });
 
-
+const emits = defineEmits<{ (e: "card-selected"): void }>();
 const dragStore = useDragStore();
 const taskStore = useTaskStore();
 
 const mouseover = ref(false);
 const selected = ref(false);
 
-defineExpose({selected})
+defineExpose({ selected });
 
 const isDragging = computed({
   set: (val: boolean) => {
@@ -94,9 +94,18 @@ const isDragging = computed({
   get: () => dragStore.isDragging,
 });
 
-watch(()=>props.selectMode, (val)=>{
-  if(!val) {selected.value = false}
-})
+watch(
+  () => props.selectMode,
+  (val) => {
+    if (!val) {
+      selected.value = false;
+    }
+  }
+);
+
+watch(selected, () => {
+  emits("card-selected");
+});
 
 function dragStart() {
   isDragging.value = true;
